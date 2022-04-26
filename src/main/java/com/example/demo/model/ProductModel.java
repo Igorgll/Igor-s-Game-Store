@@ -18,7 +18,6 @@ import com.example.demo.util.Category;
 import com.example.demo.util.Platform;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-
 @Entity
 @Table(name = "tb_product")
 
@@ -27,7 +26,7 @@ public class ProductModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
     @NotNull
     private String name;
 

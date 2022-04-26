@@ -51,15 +51,15 @@ public class ProductController {
             .orElse(ResponseEntity.notFound().build());
         }
 
-    @GetMapping("/categories")    
-        public ResponseEntity<List <ProductModel>> getByCategory (@RequestParam (defaultValue = "ACTION") Category category) {
-            return ResponseEntity.ok(repository.findAllByCategory(category));
-        }
+        @GetMapping("/category")    
+            public ResponseEntity<List <ProductModel>> getByCategory (@RequestParam (defaultValue = "ACTION") Category category) {
+                return ResponseEntity.ok(repository.findAllByCategory(category));
+            }
 
-    @GetMapping("/platform")
-        public ResponseEntity<List <ProductModel>> getByPlatform (@RequestParam (defaultValue = "PC") Platform platform) {
-            return ResponseEntity.ok(repository.findAllByPlatform(platform));
-        }
+        @GetMapping("/platform")
+            public ResponseEntity<List <ProductModel>> getByPlatform (@RequestParam (defaultValue = "PC") Platform platform) {
+                return ResponseEntity.ok(repository.findAllByPlatform(platform));
+            }
 
     @PostMapping 
         public ResponseEntity<ProductModel> post(@Valid @RequestBody ProductModel product) {
