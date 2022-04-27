@@ -20,13 +20,13 @@ public class SwaggerConfig {
 						.version("v0.0.1")
 						.license(new License()
 								.name("Igor's Game Store")
-								.url(""))
+								.url("https://github.com/Igorgll/Igor-s-Game-Store"))
 						.contact(new Contact()
 								.name("GitHub Game Store")
-								.url("https://github.com/igorgll/gamestore")
+								.url("https://github.com/Igorgll/Igor-s-Game-Store")
 								.email("igorlimagn@gmail.com")))
 				.externalDocs(new ExternalDocumentation()
 						.description("Projeto Github")
-						.url("https://github.com/igorgll/gamestore"));
+						.url("https://github.com/Igorgll/Igor-s-Game-Store"));
 	}
 }
