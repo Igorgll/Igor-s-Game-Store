@@ -35,15 +35,16 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-        .antMatchers("/users/login").permitAll()
-        .antMatchers("users/signup").permitAll()
-        .antMatchers(HttpMethod.GET, "/games").permitAll()
-        .antMatchers(HttpMethod.GET, "/games/**").permitAll()
-        .anyRequest().authenticated()
-        .and().httpBasic()
-        .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and().cors()
-        .and().csrf().disable();
+            .antMatchers(HttpMethod.POST,"/users/signup").permitAll()
+            .antMatchers(HttpMethod.POST,"/users/login").permitAll()
+            .antMatchers(HttpMethod.POST,"/games").permitAll()
+            .antMatchers(HttpMethod.GET, "/games").permitAll()
+            .antMatchers(HttpMethod.GET, "/games/**").permitAll()
+            .anyRequest().authenticated()
+            .and().httpBasic()
+            .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and().cors()
+            .and().csrf().disable();
     }
 
 }

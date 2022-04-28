@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Optional;
 
 import com.example.demo.model.UserModel;
@@ -19,18 +20,34 @@ public class UserService {
  
     private @Autowired UserRepository repository;
 
-    public Optional<UserModel> signUpUser(UserModel user) {
-        Optional<UserModel> optional = repository.findByUser(user.getUser()); 
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        if(optional.isPresent()) {
-            return Optional.empty();
-        } 
+    public String encoder(String password) {
+        return encoder.encode(password);
+    }
+
+    public List<UserModel> listUsers(){
+        return repository.findAll();
+    }
+
+    public Optional<UserModel> getUserById(Long id) {
+        return repository.findById(id);
+    }
+
+    public Optional<UserModel> signUpUser(UserModel user) {
+        Optional<UserModel> newUser = repository.findByUser(user.getUser()); 
+
+        if(newUser.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User already exists!", null);
+        }else {
+
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     
         String passwordEncoder = encoder.encode(user.getPassword());
         user.setPassword(passwordEncoder);
 
         return Optional.ofNullable(repository.save(user));
+        }
     }
 
     public Optional<UserModel> updateUser (UserModel user) {

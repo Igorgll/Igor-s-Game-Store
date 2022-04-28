@@ -4,6 +4,8 @@ package com.example.demo.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import com.example.demo.model.UserModel;
 import com.example.demo.model.dto.UserLoginModel;
 import com.example.demo.repository.UserRepository;
@@ -41,21 +43,29 @@ public class UserController {
         public ResponseEntity<List <UserModel>> getAll(){
             List<UserModel> list = repository.findAll();
             if (list.isEmpty()) {
-                throw new ResponseStatusException(HttpStatus.NO_CONTENT, "User not found");
+                return ResponseEntity.status(204).build();
             }else {
-                return ResponseEntity.ok(repository.findAll());
+                return ResponseEntity.status(200).body(list);
             }
         }
         
     @GetMapping("/{id}")
-        public ResponseEntity<UserModel> getById(@PathVariable Long id) {
-            return repository.findById(id).map(resp -> ResponseEntity.ok(resp))
-            .orElse(ResponseEntity.notFound().build()); 
+        public ResponseEntity<UserModel> getById(@PathVariable (value = "id") Long id) {
+            return repository.findById(id).map(resp -> ResponseEntity.status(200).body(resp))
+            .orElseThrow(() -> {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Id doesn't exist.");
+            }); 
         }
 
     @GetMapping("/name/{name}") 
-        public ResponseEntity<List <UserModel>> getByName(@PathVariable ("name") String name) {
-            return ResponseEntity.ok(repository.findAllByNameContainingIgnoreCase(name));
+        public ResponseEntity<List <UserModel>> getByName(@PathVariable (value = "name") String name) {
+            List<UserModel> list = repository.findAllByNameContainingIgnoreCase(name);
+
+            if(list.isEmpty()) {
+                return ResponseEntity.status(204).build();
+            }else {
+                return ResponseEntity.status(200).body(list);
+            }
         }
 
 
@@ -66,9 +76,9 @@ public class UserController {
 
 
     @PostMapping("/signup") 
-        public ResponseEntity<UserModel> postUser(@RequestBody UserModel user) {
+        public ResponseEntity<UserModel> postUser(@Valid @RequestBody UserModel user) {
             return userService.signUpUser(user).map(resp -> ResponseEntity.status(201).body(resp))
-                .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
+                .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
         }
 
     @PostMapping("/login")

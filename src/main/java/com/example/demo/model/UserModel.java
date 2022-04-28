@@ -14,6 +14,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Entity
@@ -39,15 +41,17 @@ public class UserModel {
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @JsonIgnoreProperties({"user"})
     private List<ShopCartModel> purchases;
 
-    public UserModel(Long id, @Size(min = 2, max = 100) String name,
-            @Email(message = "The field email must be obrigatory.") String user,
-            @NotBlank(message = "The field password must be obrigatory.") @Size(min = 8, message = "Passsword must have at least 8 characters.") String password) {
+    public UserModel(long id, String name, String user, String password) {
         this.id = id;
         this.name = name;
         this.user = user;
         this.password = password;
+    }
+
+    public UserModel() {
     }
 
     public Long getId() {
