@@ -33,9 +33,9 @@ public class ProductModel {
     @NotNull
     @Size(min = 5, max = 5000)
     private String description;
-
+    
     @NotNull
-    private float price;
+    private double price;
 
     private @Enumerated(EnumType.STRING) Category category;
 
@@ -69,11 +69,11 @@ public class ProductModel {
         this.description = description;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
