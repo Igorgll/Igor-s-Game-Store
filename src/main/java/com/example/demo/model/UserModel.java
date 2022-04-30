@@ -3,6 +3,7 @@ package com.example.demo.model;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,19 +26,23 @@ public class UserModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotNull
     @Size(min = 2, max = 100)
+    @Column(name = "name")
     private String name; 
 
     @NotNull
     @Schema(example = "email@email.com")
     @Email(message = "The field email must be obrigatory.")
+    @Column(name = "username")
     private String user;
 
     @NotBlank(message = "The field password must be obrigatory.")
     @Size(min = 8, message = "Passsword must have at least 8 characters.")
+    @Column(name = "password")
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
